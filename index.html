@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>池袋ウイスキーフレンズ 会員証</title>
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+<style>
+  body{margin:0;background:#4a0d12;font-family:sans-serif;color:#fff;text-align:center;}
+  .wrap{max-width:420px;margin:0 auto;padding:16px;}
+  .card img{width:100%;border-radius:12px;display:block;}
+  .msg{background:#fff;color:#1a1a1a;border-radius:12px;padding:16px;margin-top:14px;text-align:left;line-height:1.7;font-size:15px;}
+  .loading{padding:60px 16px;font-size:15px;word-break:break-all;}
+  a{color:#1a73e8;}
+</style>
+</head>
+<body>
+  <div id="loading" class="loading">会員確認中…</div>
+  <div id="card" class="wrap" style="display:none;">
+    <div class="card"><img src="https://drive.google.com/thumbnail?id=1yhZBN_WkA879SamCnFetUJ2wnx_FbwNu&sz=w1200" alt="IWF会員証"></div>
+    <div class="msg">
+      この画面が、あなたのデジタル会員証です<br><br>
+      ━━━━━━━━━━<br>
+      <b>【お店の方へ】</b><br>
+      IWF(池袋ウイスキーフレンズ)のメンバーです<br>
+      共有ボトルの1杯目を300円でお願いします<br>
+      ━━━━━━━━━━<br><br>
+      <b>▼ 使い方</b><br>
+      ・この画面をそのままスタッフに見せてください<br>
+      ・またスマホをボトルにかざせば、いつでもこのカードが開きます<br><br>
+      ※300円は共有ボトルの1杯目分です<br>
+      ※割り材（炭酸・水・氷など）は別途かかる場合があります<br><br>
+      今夜も、あなたのペースでゆっくり楽しんで🥃<br><br>
+      ▼ 次のイベントやふだんの様子はこちら<br>
+      <a href="https://www.instagram.com/ike_whisky_owl/">@ike_whisky_owl</a>
+    </div>
+  </div>
+<script>
+  var GAS = "https://script.google.com/macros/s/AKfycbw8pTaKMs3dup3raw2AhyjQ_Jwb46FaaxazBfu-p8L4lYuInQeO8vvPe8zjUEEudcFSTQ/exec";
+  var L = document.getElementById('loading');
+  liff.init({ liffId: "2010878471-wjQdGjxG" }).then(function(){
+    if (!liff.isLoggedIn()) { liff.login(); return; }
+    return liff.getProfile();
+  }).then(function(p){
+    if (!p) return;
+    var shop = new URLSearchParams(location.search).get('shop') || '店舗不明';
+    var body = new URLSearchParams({ name: p.displayName, userId: p.userId, shop: shop });
+    return fetch(GAS, { method:'POST', mode:'no-cors', body: body });
+  }).then(function(){
+    document.getElementById('loading').style.display='none';
+    document.getElementById('card').style.display='block';
+  }).catch(function(e){ L.innerText = 'エラー: ' + e; });
+</script>
+</body>
+</html>
